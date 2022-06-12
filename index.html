@@ -17,7 +17,7 @@
         align-items: center;
         justify-content: center;
         height: 100vh;
-        background-image: url("img/bg1.jpg");
+        background-image: url("./img/bg1.jpg");
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
@@ -82,41 +82,21 @@
           shuRuKuang.style.borderBottomColor = "#fff";
           shuRuKuang.value = "";
           shuRuKuang.readOnly = false;
-          fetch("https://zhe-sh-cn.github.io/DailyThing/", {
-            method: "DELETE",
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              console.log(data);
-            });
+          window.localStorage.removeItem("shi");
         } else {
           youShi = true;
           anNiu.innerText = "✘";
           shuRuKuang.style.borderBottomColor = "transparent";
           shuRuKuang.readOnly = true;
-          fetch("https://zhe-sh-cn.github.io/DailyThing/" + shuRuKuang.value, {
-            method: "POST",
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              console.log(data);
-            });
+          window.localStorage.setItem("shi", shuRuKuang.value);
         }
       }
-      fetch("https://zhe-sh-cn.github.io/DailyThing/", {
-        method: "GET",
-      })
-        .then((response) => response.json())
-        .then((jsonData) => {
-          console.log(jsonData);
-          if (jsonData.data) {
-            document.getElementById("shuRuKuang").value = jsonData.data;
-            youShi = true;
-            anNiu.innerText = "✘";
-            shuRuKuang.style.borderBottomColor = "transparent";
-            shuRuKuang.readOnly = true;
-          }
-        });
+
+      let data = window.localStorage.getItem("shi");
+      if (data) {
+        document.getElementById("shuRuKuang").value = data;
+        change();
+      }
     </script>
   </body>
 </html>
